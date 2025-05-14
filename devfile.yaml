@@ -1,0 +1,33 @@
+schemaVersion: 2.0.0
+metadata:
+  name: discord-clone
+  version: 1.0.0
+  displayName: Discord Clone
+  description: A Discord clone application with Node.js backend and React frontend
+components:
+  - name: dev
+    container:
+      image: public.ecr.aws/aws-mde/universal-image:latest
+      memoryLimit: 4Gi
+      mountSources: true
+      endpoints:
+        - name: backend
+          targetPort: 5000
+        - name: frontend
+          targetPort: 5173
+commands:
+  - id: install
+    exec:
+      component: dev
+      commandLine: "npm install && cd frontend && npm install"
+      workingDir: /projects
+  - id: build
+    exec:
+      component: dev
+      commandLine: "cd frontend && npm run build"
+      workingDir: /projects
+  - id: test
+    exec:
+      component: dev
+      commandLine: "npm test && cd frontend && npm test"
+      workingDir: /projects
